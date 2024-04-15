@@ -1,5 +1,5 @@
 /*!
- * CustomTooltips
+ * Tiny-JS-Tooltips
  * A very simple and lightweight tooltips system created with vanilla JavaScript
  *
  * @version v1.0
