@@ -8,7 +8,7 @@
  * @license MIT
  */
 
-#tooltip-js {
+#tiny-js-tooltip {
 	/*font-size: 15px;
 	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;*/
 	position: absolute;
@@ -23,7 +23,7 @@
 	border-radius: 10px;
 }
 
-#tooltip-js::before {
+#tiny-js-tooltip::before {
 	top: -5px;
 	z-index: 1;
 	width: 12px;
@@ -38,7 +38,7 @@
 	border-bottom: 1px solid rgba(145, 158, 171, 0.12);
 }
 
-#tooltip-js.arrow-left:before {
+#tiny-js-tooltip.arrow-left:before {
 	left: initial;
 	right: 5px;
 }
