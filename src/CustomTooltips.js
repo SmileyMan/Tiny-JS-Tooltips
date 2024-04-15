@@ -1,100 +1,121 @@
 /*!
- * CustomTooltips
+ * Tiny-JS-Tooltips
  * A very simple and lightweight tooltips system created with vanilla JavaScript
  *
  * @version v1.0
- * @author oscarcweb <rehr_roste@aleeas.com>
- * @github https://github.com/oscarcweb/CustomTooltips
+ * @author Steve Miles
+ * @github https://github.com/SmileyMan/Tiny-JS-Tooltips
+ * @orginal https://github.com/oscarcweb/CustomTooltips.
  * @license MIT
  */
 (function() {
 
-function getWidth() {
-	return Math.max(
-	document.body.scrollWidth,
-	document.documentElement.scrollWidth,
-	document.body.offsetWidth,
-	document.documentElement.offsetWidth,
-	document.documentElement.clientWidth
-	);
-}
+  /** Is the tooltip-js in the page? */
+  !document.getElementById("tooltip-js") ? document.body.insertAdjacentHTML("beforeend", '<div id="tooltip-js"></div>') : null;
 
-function getHeight() {
-	return Math.max(
-	document.body.scrollHeight,
-	document.documentElement.scrollHeight,
-	document.body.offsetHeight,
-	document.documentElement.offsetHeight,
-	document.documentElement.clientHeight
-	);
-}
+  const tooltip = document.getElementById("tooltip-js");
 
-let page_width = getWidth();
+  const getWidth = () => {
+    return Math.max(
+      document.body.scrollWidth,
+      document.documentElement.scrollWidth,
+      document.body.offsetWidth,
+      document.documentElement.offsetWidth,
+      document.documentElement.clientWidth
+    );
+  };
 
-function tooltipPosition( action=0 ) {
+  const getHeight = () => {
+    return Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.documentElement.clientHeight
+    );
+  };
 
-	var xoffset = 5,
-		yoffset = 15,
-		no_more = 0;
-	document.onmousemove = function (e) {
+  const positionTooltip = (tooltip) => {
 
-		if ( action || no_more ) return;
+    const xoffset = -5,
+          yoffset = 20;
 
-		var width = e.clientX + xoffset + window.scrollX,
-			height = e.clientY + yoffset + window.scrollY;
+    let width = event.clientX + xoffset + window.scrollX,
+        height = event.clientY + yoffset + window.scrollY;
 
-		/** Fix width tooltip */
-		var tooltip = document.getElementById("tooltip-js");
+    if ( ( width + tooltip.offsetWidth ) > getWidth() ) {
+      width = width - tooltip.offsetWidth;
+      tooltip.classList.add("arrow-left");
+    }
+    else {
+      tooltip.classList.remove("arrow-left");
+    }
 
-		if ( ( width + tooltip.offsetWidth ) > getWidth() ) {
-			width = width - tooltip.offsetWidth;
-			pop.classList.add("arrow-left");
-		}
-		else {
-			pop.classList.remove("arrow-left");
-		}
+    if ( ( height + tooltip.offsetHeight ) > getHeight() ) {
+      height = height - tooltip.offsetHeight;
+    }
 
-		if ( ( height + tooltip.offsetHeight ) > getHeight() ) {
-			height = height - tooltip.offsetHeight;
-		}
-
-		/*console.log( `height: ${height+tooltip.offsetHeight} - ${getHeight()} - tooltip: ${tooltip.offsetHeight} - scrollY: ${window.scrollY}` )*/
-
-		pop.style.top = height + "px";
-		pop.style.left = width + "px";
-
-		no_more = 0;
-
-	};
-}
+    tooltip.style.top = height + "px";
+    tooltip.style.left = width + "px";
 
 
-/** Is the tooltip-js in the page? */
-!document.getElementById("tooltip-js") ? document.body.insertAdjacentHTML("beforeend", '<div id="tooltip-js"></div>') : null;
+  };
 
-let pop = document.getElementById("tooltip-js");
+  const setupTooltip = (tooltip, enabled, text = '') => {
 
-document.querySelectorAll( "[data-tooltip]" ).forEach( el => {
+    if ( enabled ) {
 
-	let text = el.getAttribute("data-tooltip");
+      positionTooltip(tooltip);
+      tooltip.innerHTML = text;
+      tooltip.style.display = "block";
+    
+    } else {
 
-	/** On hover tooltip */
-	el.addEventListener("mouseover", function (event) {
+      tooltip.innerHTML = text;
+      tooltip.style.display = "none";
 
-		tooltipPosition();
-		pop.innerHTML = text;
-		pop.style.display = "block";
+    }
 
-	})
+  };
 
-	/** On leave tooltip */
-	el.addEventListener("mouseleave", function (event) {
 
-		tooltipPosition(1);
-		pop.style.display = "none";
+  // Add tooltips to page elements
+  document.querySelectorAll( "[data-tooltip]" ).forEach( el => {
 
-	})
+	  const text = el.getAttribute("data-tooltip");
 
-});
+    /** On hover show tooltip */
+    el.addEventListener("pointerover", (event) => {
+
+      if (event.pointerType = "mouse") {
+        setupTooltip(tooltip, true, text);
+      }
+
+    });
+
+    /** On move position tooltip */
+    el.addEventListener("pointermove", (event) => {
+
+      if (event.pointerType = "mouse") {
+        positionTooltip(tooltip);
+      }
+
+    });
+
+    /** On leave remove tooltip */
+    el.addEventListener("pointerleave", () => {
+
+      setupTooltip(tooltip, false);
+
+    });
+
+    /** On click remove tooltip */
+    el.addEventListener("pointerdown", () => {
+
+      setupTooltip(tooltip, false);
+
+    });
+
+  });
 
 })()
