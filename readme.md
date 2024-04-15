@@ -12,10 +12,10 @@ ___
 
 #### Usage
 ```html
-<link rel="stylesheet" href="src/CustomTooltips.min.css">
+<link rel="stylesheet" href="src/Tiny-JS-Tooltips.min.css">
 <!-- </head> -->
 ...
-<script src="src/CustomTooltips.min.js"></script>
+<script src="src/Tiny-JS-Tooltips.min.js"></script>
 <!-- </body> -->
 ```
 
