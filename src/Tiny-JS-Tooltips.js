@@ -3,8 +3,9 @@
  * A very simple and lightweight tooltips system created with vanilla JavaScript
  *
  * @version v1.0
- * @author oscarcweb <rehr_roste@aleeas.com>
- * @github https://github.com/oscarcweb/CustomTooltips
+ * @author SmileyMan (Steve Miles)
+ * @github https://github.com/SmileyMan/Tiny-JS-Tooltips
+ * @original https://github.com/oscarcweb/CustomTooltips
  * @license MIT
  */
 (function() {
