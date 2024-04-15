@@ -1,19 +1,18 @@
 /*!
- * Tiny-JS-Tooltips
+ * CustomTooltips
  * A very simple and lightweight tooltips system created with vanilla JavaScript
  *
  * @version v1.0
- * @author Steve Miles
- * @github https://github.com/SmileyMan/Tiny-JS-Tooltips
- * @orginal https://github.com/oscarcweb/CustomTooltips.
+ * @author oscarcweb <rehr_roste@aleeas.com>
+ * @github https://github.com/oscarcweb/CustomTooltips
  * @license MIT
  */
 (function() {
 
   /** Is the tooltip-js in the page? */
-  !document.getElementById("tooltip-js") ? document.body.insertAdjacentHTML("beforeend", '<div id="tooltip-js"></div>') : null;
+  !document.getElementById("tiny-js-tooltip") ? document.body.insertAdjacentHTML("beforeend", '<div id="tiny-js-tooltip"></div>') : null;
 
-  const tooltip = document.getElementById("tooltip-js");
+  const tooltip = document.getElementById("tiny-js-tooltip");
 
   const getWidth = () => {
     return Math.max(
