@@ -1,11 +1,11 @@
-# Custom Tooltips
+# Tiny JS Tooltips
 #### A very simple and lightweight tooltips system created with vanilla JavaScript.
 
 ![Screenshot](screenshot.png)
 
 ### Features
 * Created with Vanilla JS 🌈
-* ⚡ Lightweight: `1.16KB` ( `0.49KB` GZIP ), CSS: `0.6KB` ( `0.33KB` GZIP )
+* ⚡ Lightweight
 * Live movement, follow the cursor! ✨
 * One line of code 😎
 ___
