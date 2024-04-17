@@ -9,12 +9,15 @@
  * @license MIT
  */
 (function() {
+  // Check if tooltip container exists, create if not
+  let tooltip = document.getElementById("tiny-js-tooltip");
+  if (!tooltip) {
+    tooltip = document.createElement("div");
+    tooltip.id = "tiny-js-tooltip";
+    document.body.appendChild(tooltip);
+  }
 
-  /** Is the tooltip-js in the page? */
-  !document.getElementById("tiny-js-tooltip") ? document.body.insertAdjacentHTML("beforeend", '<div id="tiny-js-tooltip"></div>') : null;
-
-  const tooltip = document.getElementById("tiny-js-tooltip");
-
+  // Get document width and height
   const getWidth = () => {
     return Math.max(
       document.body.scrollWidth,
@@ -35,87 +38,68 @@
     );
   };
 
-  const positionTooltip = (tooltip) => {
+  // Position the tooltip
+  const positionTooltip = (event) => {
+    if (!event) return; // Check if event object exists
 
-    const xoffset = -5,
-          yoffset = 20;
+    const xoffset = -5;
+    const yoffset = 20;
 
-    let width = event.clientX + xoffset + window.scrollX,
-        height = event.clientY + yoffset + window.scrollY;
+    let width = event.clientX + xoffset + window.scrollX;
+    let height = event.clientY + yoffset + window.scrollY;
 
-    if ( ( width + tooltip.offsetWidth ) > getWidth() ) {
+    if ((width + tooltip.offsetWidth) > getWidth()) {
       width = width - tooltip.offsetWidth;
       tooltip.classList.add("arrow-left");
-    }
-    else {
+    } else {
       tooltip.classList.remove("arrow-left");
     }
 
-    if ( ( height + tooltip.offsetHeight ) > getHeight() ) {
+    if ((height + tooltip.offsetHeight) > getHeight()) {
       height = height - tooltip.offsetHeight;
     }
 
     tooltip.style.top = height + "px";
     tooltip.style.left = width + "px";
-
-
   };
 
-  const setupTooltip = (tooltip, enabled, text = '') => {
-
-    if ( enabled ) {
-
-      positionTooltip(tooltip);
+  // Setup the tooltip
+  const setupTooltip = (enabled, text = '') => {
+    if (enabled) {
+      positionTooltip(event);
       tooltip.innerHTML = text;
-      tooltip.style.display = "block";
-    
+      tooltip.style.display = text ? "block" : "none"; // Hide tooltip if text is empty
     } else {
-
       tooltip.innerHTML = text;
       tooltip.style.display = "none";
-
     }
-
   };
 
-
   // Add tooltips to page elements
-  document.querySelectorAll( "[data-tooltip]" ).forEach( el => {
+  document.querySelectorAll("[data-tooltip]").forEach(el => {
+    const text = el.getAttribute("data-tooltip");
 
-	  const text = el.getAttribute("data-tooltip");
-
-    /** On hover show tooltip */
+    // Show tooltip on hover
     el.addEventListener("pointerover", (event) => {
-
-      if (event.pointerType = "mouse") {
-        setupTooltip(tooltip, true, text);
+      if (event.pointerType === "mouse") {
+        setupTooltip(true, text);
       }
-
     });
 
-    /** On move position tooltip */
+    // Update tooltip position on move
     el.addEventListener("pointermove", (event) => {
-
-      if (event.pointerType = "mouse") {
-        positionTooltip(tooltip);
+      if (event.pointerType === "mouse") {
+        positionTooltip(event);
       }
-
     });
 
-    /** On leave remove tooltip */
+    // Hide tooltip on leave or click
     el.addEventListener("pointerleave", () => {
-
-      setupTooltip(tooltip, false);
-
+      setupTooltip(false);
     });
 
-    /** On click remove tooltip */
     el.addEventListener("pointerdown", () => {
-
-      setupTooltip(tooltip, false);
-
+      setupTooltip(false);
     });
-
   });
-
-})()
+})();
